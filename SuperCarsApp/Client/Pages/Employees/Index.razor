@@ -1,0 +1,80 @@
+﻿@page "/empleados"
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@attribute [Authorize]
+@inject HttpClient Http
+@inject IJSRuntime Js
+<h3>EMPLEADOS</h3>
+<div>
+    <a class="btn btn-success" href="crearEmpleado">Crear empleado</a>
+</div>
+@if (employees == null)
+{
+    <text>Loading...</text>
+}
+else if (employees.Length == 0)
+{
+    <text>No hay empleados registrados</text>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Id</th>
+                <th>Nombre</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var employee in employees)
+            {
+                <tr>
+                    <td>
+                        <a class="btn btn-success" href="editarEmpleado/@employee.Id"> Editar</a>
+                        <button class="btn btn-danger" @onclick="@(()=>DeleteEmployee(employee.Id))">Eliminar</button>
+                    </td>
+                    <td>@employee.Id</td>
+                    <td>@employee.Name</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+@code {
+    Employee[] employees;
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadEmployees();
+    }
+
+
+    async Task LoadEmployees()
+    {
+        try
+        {
+            employees = await Http.GetFromJsonAsync<Employee[]>("employees");
+        }
+        catch (AccessTokenNotAvailableException exception)
+        {
+            exception.Redirect();
+        }
+
+
+    }
+    async Task DeleteEmployee(int idEmployee)
+    {
+        var SelectEmployee = employees.First(x => x.Id == idEmployee);
+        string msg = $"¿Deseas Eliminar a {SelectEmployee}?";
+        if (await Js.InvokeAsync<bool>("confirm", msg))
+        {
+            await Http.DeleteAsync($"employees/{idEmployee}");
+            await LoadEmployees();
+
+        }
+
+    }
+
+}

@@ -1,0 +1,25 @@
+﻿@page "/editarEmpleado/{IdEmployee:int}"
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+
+<h3>Editar Empleado</h3>
+<EmployeeForm TextButton="Guardar" OnValidSubmit="@EditEmployee" employee="@employee" />
+
+@code { 
+    [Parameter] public int IdEmployee { get; set; }
+    Employee employee = new Employee();
+
+
+    protected override async Task OnParametersSetAsync()
+    {
+        
+       employee = await Http.GetFromJsonAsync<Employee>($"employees/{IdEmployee}");
+    }
+    async Task EditEmployee()
+    {
+        await Http.PutAsJsonAsync("employees", employee);
+        NavigationManager.NavigateTo("empleados");
+    }
+
+}

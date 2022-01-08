@@ -1,0 +1,16 @@
+﻿@page "/crearEmpleado"
+@inject HttpClient Http;
+@inject NavigationManager NavigationManager
+
+<h3>Crear Empleado</h3>
+<EmployeeForm TextButton="Crear" OnValidSubmit="@CreateEmployee" Employee="@employee"/>
+
+@code {
+    Employee employee = new Employee();
+    async Task CreateEmployee()
+    {
+        
+        await Http.PostAsJsonAsync("employees", employee);
+        NavigationManager.NavigateTo("empleados");
+    }
+}
