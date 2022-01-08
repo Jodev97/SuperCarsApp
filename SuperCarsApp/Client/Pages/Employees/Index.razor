@@ -18,30 +18,76 @@ else if (employees.Length == 0)
 }
 else
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th></th>
-                <th>Id</th>
-                <th>Nombre</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var employee in employees)
-            {
-                <tr>
-                    <td>
-                        <a class="btn btn-success" href="editarEmpleado/@employee.Id"> Editar</a>
-                        <button class="btn btn-danger" @onclick="@(()=>DeleteEmployee(employee.Id))">Eliminar</button>
-                    </td>
-                    <td>@employee.Id</td>
-                    <td>@employee.Name</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
+    <div class="container">
+        <div class="row py-5">
+            <div class="col">
+                <RadzenCard>
 
+                    <RadzenDataList WrapItems="true" AllowPaging="true" Data="@employees" TItem="Employee" PageSize="5">
+                        <Template Context="employee">
+                            <RadzenCard Style="width: 100%; padding: 0; overflow: hidden;">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-lg-1 p-3 product-title">
+                                            @(employee.Id)
+                                        </div>
+                                        <div class="col-lg-7 p-3">
+                                            <div class="row d-flex justify-content-between">
+                                                <div class="col-md-6 col-lg-3">
+                                                    <h5 class="mb-0">Nombre</h5>
+                                                    <p class="mb-lg-0">@(employee.Name)</p>
+                                                </div>
+                                                <div class="col-md-6 col-lg-3">
+                                                    <h5 class="mb-0">Rol</h5>
+                                                    <p class=" mb-lg-0">Empleado</p>
+                                                </div>
+
+                                                <div class="col-lg-6">
+                                                    
+                                                    <div class="row mb-4">
+                                                        <div class="col">
+                                                            
+                                                            
+                                                            
+                                                            <a class="btn btn-primary" href="editarEmpleado/@employee.Id">Editar</a>
+                                                            <button class="btn btn-outline-danger" @onclick="@(()=>DeleteEmployee(employee.Id))">Eliminar</button>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </RadzenCard>
+                        </Template>
+                    </RadzenDataList>
+
+                </RadzenCard>
+            </div>
+        </div>
+    </div>
+
+}
+<style>
+    .product-title {
+        min-height: 72px;
+        color: #da0074;
+        background-color: rgba(255, 41, 155, .1);
+        font-size: 20px;
+        font-weight: bold;
+        line-height: 20px;
+        letter-spacing: -0.02em;
+    }
+
+    .price-badge {
+        font-size: 16px;
+        font-weight: bold;
+        line-height: 20px;
+        padding: 8px;
+    }
+</style>
 
 @code {
     Employee[] employees;
@@ -66,8 +112,10 @@ else
     }
     async Task DeleteEmployee(int idEmployee)
     {
+
         var SelectEmployee = employees.First(x => x.Id == idEmployee);
-        string msg = $"¿Deseas Eliminar a {SelectEmployee}?";
+       
+        string msg = $"¿Deseas Eliminar a {SelectEmployee.Name}?";
         if (await Js.InvokeAsync<bool>("confirm", msg))
         {
             await Http.DeleteAsync($"employees/{idEmployee}");
