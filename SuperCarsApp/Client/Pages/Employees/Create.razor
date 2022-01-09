@@ -1,9 +1,14 @@
 ﻿@page "/crearEmpleado"
 @inject HttpClient Http;
 @inject NavigationManager NavigationManager
+<div class="d-flex justify-content-center w-100 ">
+    <div class="row">
+        <h3 class="col-12">Crear Empleado</h3>
+        <EmployeeForm TextButton="Crear" OnValidSubmit="@CreateEmployee" Employee="@employee" />
+    </div>
+    
 
-<h3>Crear Empleado</h3>
-<EmployeeForm TextButton="Crear" OnValidSubmit="@CreateEmployee" Employee="@employee"/>
+</div> 
 
 @code {
     Employee employee = new Employee();

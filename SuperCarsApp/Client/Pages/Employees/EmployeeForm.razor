@@ -1,15 +1,42 @@
 ﻿
 <EditForm Model="@Employee" OnValidSubmit="@OnValidSubmit">
-    <div class="form-field">
-        <label>Nombre:</label>
+    <div class="form-field col-12 align-content-center">
+        
+        
         <div>
-            <InputText @bind-Value="@Employee.Name" />
-            <ValidationMessage For="@(()=>Employee.Name)" />
+            <RadzenCard class="row">
+                <div class="mb-4">
+                    <h4 >Nombre</h4>
+                    <RadzenTextBox Class="w-100" @bind-Value="@Employee.Name" />
+                    <ValidationMessage For="@(()=>Employee.Name)" />
+                </div>
+                <div class="mb-4">
+                    <h4 >Email</h4>
+                    <RadzenTextBox Class="w-100" @bind-Value="@Employee.Email" />
+                    <ValidationMessage For="@(()=>Employee.Email)" />
+                </div>
+                <div class="mb-4">
+                    <h4 >Rol</h4>
+                    <RadzenTextBox Class="w-100" @bind-Value="@Employee.Rol" />
+                    <ValidationMessage For="@(()=>Employee.Rol)" />
+                </div>
+                <div class="mb-4">
+                    <h4 class="mb-4">Numero de ventas</h4>
+
+                    <RadzenNumeric @bind-Value="@Employee.Sales" TValue="int"  Class="w-100" />
+                </div>
+
+                <button type="submit" class="btn btn-success">@TextButton</button>
+            </RadzenCard>
+
+
         </div>
+        
     </div>
-    <button type="submit" class="btn btn-success">@TextButton</button>
+    
     <DataAnnotationsValidator />
 </EditForm>
+
 
 @code {
     [Parameter] public Employee Employee { get; set; } = new Employee();

@@ -3,8 +3,15 @@
 @inject NavigationManager NavigationManager
 
 
-<h3>Editar Empleado</h3>
-<EmployeeForm TextButton="Guardar" OnValidSubmit="@EditEmployee" employee="@employee" />
+<div class="d-flex justify-content-center w-100">
+    <div class="row">
+        <h3 class="col-12 align-content-center">Editar Empleado</h3>
+        <EmployeeForm TextButton="Guardar" OnValidSubmit="@EditEmployee" employee="@employee" />
+
+    </div>
+    
+</div>
+
 
 @code { 
     [Parameter] public int IdEmployee { get; set; }

@@ -31,18 +31,23 @@ else
                                         <div class="col-lg-1 p-3 product-title">
                                             @(employee.Id)
                                         </div>
-                                        <div class="col-lg-7 p-3">
+                                        <div class="col p-3">
                                             <div class="row d-flex justify-content-between">
                                                 <div class="col-md-6 col-lg-3">
-                                                    <h5 class="mb-0">Nombre</h5>
-                                                    <p class="mb-lg-0">@(employee.Name)</p>
+                                                    <h5 class="mb-0">@(employee.Name)</h5>
+                                                    <p class="mb-lg-0">@(employee.Email)</p>
+
                                                 </div>
                                                 <div class="col-md-6 col-lg-3">
                                                     <h5 class="mb-0">Rol</h5>
-                                                    <p class=" mb-lg-0">Empleado</p>
+                                                    <p class=" mb-lg-0">@(employee.Rol)</p>
+                                                </div>
+                                                <div class="col-md-6  col-lg-3 text-sm-left text-lg-right mb-lg-0">
+                                                    <h5 class="mb-0">Ventas</h5>
+                                                    <RadzenBadge BadgeStyle="BadgeStyle.Secondary" Class="price-badge" Text=@($"{employee.Sales}") />
                                                 </div>
 
-                                                <div class="col-lg-6">
+                                                <div class="col-md-6 col-lg-3">
                                                     
                                                     <div class="row mb-4">
                                                         <div class="col">
